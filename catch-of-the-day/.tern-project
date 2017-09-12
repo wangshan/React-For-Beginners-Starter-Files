@@ -1,0 +1,25 @@
+{
+    "libs": [
+        "browser"
+        ],
+    "dontLoad":[
+        "bower_components",
+        "node_modules",
+        "dist",
+        "tmp",
+        "vendor"
+        ],
+    "exclude": [
+        "bower_components/**",
+        "node_modules/**",
+        ".git/**",
+        "*.min.js",
+        "*.prod.js",
+        "*.debug.js",
+        "tmp",
+        "vendor"
+    ],
+    "plugins": {
+        "node": {}
+    }
+}
