@@ -12,8 +12,10 @@ class App extends React.Component {
 
         this.addFish = this.addFish.bind(this);
         this.updateFish = this.updateFish.bind(this);
+        this.removeFish = this.removeFish.bind(this);
         this.loadSamples = this.loadSamples.bind(this);
         this.addToOrder = this.addToOrder.bind(this);
+        this.removeOrder = this.removeOrder.bind(this);
 
         // getInitialState
         this.state = {
@@ -58,13 +60,27 @@ class App extends React.Component {
         const timestamp = Date.now();
         fishes[`fish-${timestamp}`] = fish;
         // 2. set state
-        this.setState({fishes: fishes});
+        this.setState({
+            fishes: fishes
+        });
     }
 
     updateFish(key, fish) {
         let fishes = {...this.state.fishes};
         fishes[key] = fish;
-        this.setState({fishes: fishes});
+        this.setState({
+            fishes: fishes
+        });
+    }
+
+    removeFish(key) {
+        let fishes = {...this.state.fishes};
+        fishes[key] = null;
+        // this won't work with firebase
+        // delete fishes[key];
+        this.setState({
+            fishes: fishes
+        });
     }
 
     loadSamples() {
@@ -83,6 +99,16 @@ class App extends React.Component {
         });
     }
 
+    removeOrder(key) {
+        // take a copy of the state
+        const order = {...this.state.order};
+        // update or add the new number of fish ordered
+        delete order[key];
+        this.setState({
+            order: order
+        });
+    }
+
     render() {
         return (
             <div className="catch-of-the-day">
@@ -91,13 +117,30 @@ class App extends React.Component {
                     <ul className="list-of-fishes">
                         {
                             Object.keys(this.state.fishes).map(
-                                key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder} />
+                                // can't touch key prop which is needed by react
+                                // so pass in an extra index property
+                                key => <Fish key={key}
+                                             index={key}
+                                             details={this.state.fishes[key]}
+                                             addToOrder={this.addToOrder}
+                                        />
                             )
                         }
                     </ul>
                 </div>
-                <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params}/>
-                <Inventory addFish={this.addFish} updateFish={this.updateFish} loadSamples={this.loadSamples} fishes={this.state.fishes} />
+                <Order
+                    fishes={this.state.fishes}
+                    order={this.state.order}
+                    params={this.props.params}
+                    removeOrder={this.removeOrder}
+                    />
+                <Inventory
+                    fishes={this.state.fishes}
+                    addFish={this.addFish}
+                    updateFish={this.updateFish}
+                    removeFish={this.removeFish}
+                    loadSamples={this.loadSamples}
+                    />
             </div>
         )
     }
