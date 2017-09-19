@@ -36,6 +36,6 @@ class StorePicker extends React.Component {
 // react made this hard to use because context is usually discoveraged
 StorePicker.contextTypes = {
     router: React.PropTypes.object
-}
+};
 
 export default StorePicker;

@@ -17,4 +17,9 @@ const Header = (props) => {
     )
 }
 
+// develop time type check
+Header.propTypes = {
+    tagline: React.PropTypes.string.isRequired
+}
+
 export default Header;
